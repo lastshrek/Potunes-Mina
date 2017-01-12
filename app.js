@@ -8,10 +8,7 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    wx.onBackgroundAudioStop(function () {
-      console.log("音乐停止")
-      this.nextplay(1)
-    })
+    wx.onBackgroundAudioStop(this.nextplay(1))
   },
   getUserInfo:function(cb){
     var that = this
@@ -41,8 +38,6 @@ App({
     })
   },
   seekmusic: function (type, cb, seek) {
-    wx.stopBackgroundAudio();
-
     var that = this;
 
     this.globalData.playtype = type;
