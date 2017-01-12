@@ -1,0 +1,91 @@
+/* page/component/home/index.wxss */
+.playlist {
+    width: 100%;
+    height: 230px;
+    position: relative;
+    text-align: center;
+}
+
+.cover {
+    width: 100%;
+    position: relative;
+}
+
+.hover {
+   text-align: center;
+    position: absolute;
+    width: 100%;
+    top:0px;
+    height:100%;
+    line-height:30px;
+    background: black;
+    opacity: 0.3;
+}
+
+.title {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top:100px;
+    height:30px;
+    line-height:30px;
+    color: white;
+}
+
+/*bottom view controner*/
+.bottom_controler{
+  width: 100%;
+  background-color: #fff;
+  height: 3.6rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  /*border-top: 1px solid #000;*/
+  flex-direction: row;
+  display: flex
+}
+
+/* main Frame*/
+.bottom_ava{
+  float: left;
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.bottom_avaimg{
+  margin-left: 0.1rem;
+  margin-top: 0.1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.bottom_music_info{
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+}
+
+.name{
+  display: block;
+  color: #000;
+}
+
+.author{
+  display: block;
+  font-size: 0.4rem;
+  padding: 0.1rem;
+  color: #666;
+}
+
+.music_control{
+  width: 6.2em;
+  flex-direction: row;
+  height: 3.2rem;
+}
+
+.control{
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0.2rem;
+}

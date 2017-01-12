@@ -1,0 +1,12 @@
+{
+  "pages":[
+    "page/component/home/index",
+    "page/component/tracks/index"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "破音万里",
+    "navigationBarTextStyle":"white"
+  }
+}

@@ -1,0 +1,39 @@
+<!--page/component/home/index.wxml-->
+<view wx:for="{{playlists}}" class="playlist z-depth-2" bindtap="tracks" id="{{item.id}}">
+  <view>
+    <image src="{{item.cover}}" class="cover" mode="aspectFill"/>
+  </view>
+  <view class="hover">
+    <text></text>
+  </view>
+  <view class="title">
+    <text>{{item.title}}</text>
+  </view>
+
+</view>
+
+
+<view class="bottom_controler">
+    <view class="bottom_ava" bindtap="clickBottomInfo">
+        <image
+            class="bottom_avaimg"
+            src="{{musicData[cIndex].coverImgUrl}}">
+        </image>
+    </view>
+    <view class="bottom_music_info" bindtap="clickBottomInfo">
+        <text class="name">{{playlists[cIndex].title}}</text>
+        <text class="author">{{musicData[cIndex].author}}</text>
+    </view>
+
+    <view class="music_control">
+        <image class="control"
+            src="{{isPlayingMusic==0?'../../../imgs/play.png':'../../../imgs/pause.png'}}"
+            bindtap="clickControl">
+        </image>
+        <image class="control" src="../../../imgs/next.png" bindtap="clickNext"></image>
+    </view>
+</view>
+
+<loading hidden="{{loadingHide}}" bindchange="loadingHideChange">
+    加载列表中...
+</loading>
