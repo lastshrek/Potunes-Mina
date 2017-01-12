@@ -13,6 +13,9 @@ Page({
                 })
             }
         })
+        wx.setNavigationBarTitle({
+          title: options.title
+        })
     },
     itemClick: function(event) {
         var p = event.currentTarget.id

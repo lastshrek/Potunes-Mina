@@ -1,10 +1,34 @@
 //app.js
+let bsurl = 'https://poche.fm/api/app/playlists'
+
 App({
   onLaunch: function () {
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+
+    wx.onBackgroundAudioStop(function () {
+      console.log("音乐停止")
+      if (that.globalData.globalStop) {
+        return;
+      }
+      if (that.globalData.playtype == 1) {
+        that.nextplay(1);
+      } else {
+        that.nextfm();
+      }
+    });
+
+    wx.onBackgroundAudioPause(function () {
+      console.log("音乐暂停");
+      // this.globalData.globalStop = this.globalData.hide ? true : false;
+      // wx.getBackgroundAudioPlayerState({
+      //   complete: function (res) {
+      //     this.globalData.currentPosition = res.currentPosition ? res.currentPosition : 0
+      //   }
+      // })
+    })
   },
   getUserInfo:function(cb){
     var that = this
@@ -24,7 +48,119 @@ App({
       })
     }
   },
-  globalData:{
-    userInfo:null
+  stopmusic: function (type, cb) {
+    var that = this;
+    wx.pauseBackgroundAudio();
+    wx.getBackgroundAudioPlayerState({
+      complete: function (res) {
+        that.globalData.currentPosition = res.currentPosition ? res.currentPosition : 0
+      }
+    })
+  },
+  seekmusic: function (type, cb, seek) {
+    var that = this;
+    var m = this.globalData.curplay;
+    this.globalData.playtype = type;
+    this.playing(type)
+    // if (cb) {
+    //   console.log("cb")
+    //   this.playing(type,cb,seek);
+    // } else {
+    //   console.log("geturl")
+    //   this.geturl(function () { that.playing(type,cb,seek); })
+    // }
+  },
+  playing: function (type, cb, seek) {
+    console.log('jinlai')
+    var that = this
+    var m = that.globalData.curplay
+    wx.playBackgroundAudio({
+      dataUrl: m.url,
+      title: m.name,
+      success: function (res) {
+        if (seek != undefined) {
+          wx.seekBackgroundAudio({ position: seek })
+        };
+        that.globalData.globalStop = false;
+        that.globalData.playtype = type
+        cb && cb();
+      },
+      fail: function () {
+        if (type == 1) {
+          that.nextplay(1)
+        } else {
+          that.nextfm();
+        }
+      }
+    })
+  },
+  nextplay: function (t) {
+    //播放列表中下一首
+    this.preplay();
+    var list = this.globalData.list_am;
+    var index = this.globalData.index_am;
+    if (t == 1) {
+      index++;
+    } else {
+      index--;
+    }
+    index = index > list.length - 1 ? 0 : (index < 0 ? list.length - 1 : index);
+    this.globalData.curplay = list[index] || {};
+    this.globalData.index_am = index;
+    console.log("歌单下一首",this.globalData.curplay,list)
+    this.seekmusic(1)
+  },
+  preplay: function () {
+    //歌曲切换 停止当前音乐
+    this.globalData.globalStop = true;
+    wx.stopBackgroundAudio();
+  },
+  geturl: function (suc, err, cb) {
+    var that = this;
+    var m=that.globalData.curplay
+    console.log("m", m)
+    // wx.request({
+    //   url: bsurl + 'music/url',
+    //   data: {
+    //     id:m.id,
+    //     br:m.duration?((m.hMusic&&m.hMusic.bitrate)||(m.mMusic&&m.mMusic.bitrate)||(m.lMusicm&&m.lMusic.bitrate)||(m.bMusic&&m.bMusic.bitrate)):(m.privilege?m.privilege.maxbr:(m.h.br||m.m.br||m.l.br||m.b.br)),
+    //     cookie: wx.getStorageSync('cookie') || ''
+    //   },
+    //   success: function (a) {
+    //     a = a.data.data[0];
+    //     if (!a.url) {
+    //       err && err()
+    //     } else {
+    //       that.globalData.curplay.url = a.url;
+    //       console.log(that.globalData.curplay)
+    //       suc && suc()
+    //     }
+    //   }
+    // })
+  },
+  onShow: function () {
+    console.log(bsurl);
+    this.globalData.hide = false
+  },
+  onHide: function () {
+    this.globalData.hide = true
+    wx.setStorageSync('globalData', this.globalData);
+  },
+  globalData: {
+    hasLogin: false,
+    hide: false,
+    list_am: [],
+    list_fm: [],
+    list_sf: [],
+    index_fm: 0,
+    index_am: 0,
+    playtype: 1,
+    curplay: {},
+    shuffle: 1,
+    globalStop: true,
+    currentPosition: 0,
+    userInfo: null,
+    tracks:[],
+    index: 0
   }
 })

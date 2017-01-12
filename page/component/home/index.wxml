@@ -1,39 +1,71 @@
-<!--page/component/home/index.wxml-->
-<view wx:for="{{playlists}}" class="playlist z-depth-2" bindtap="tracks" id="{{item.id}}">
-  <view>
-    <image src="{{item.cover}}" class="cover" mode="aspectFill"/>
-  </view>
-  <view class="hover">
-    <text></text>
-  </view>
-  <view class="title">
-    <text>{{item.title}}</text>
-  </view>
+<!--index.wxml-->
+<import src="../../../utils/playpercent.wxml" />
+<import src="../../../utils/lrc.wxml" />
 
+<view class="swiper-tab">
+    <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">歌单</view>
+    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">正在播放</view>
 </view>
 
+<swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight-31}}px" bindchange="bindChange">
+    <swiper-item>
+      <scroll-view scroll-y="true" scroll-x="false" style="height:{{winHeight}}px;">
+        <view wx:for="{{playlists}}" class="playlist z-depth-2" bindtap="tracks" id="{{index}}">
+          <view>
+            <image src="{{item.cover}}" class="cover" mode="aspectFill"/>
+          </view>
+          <view class="hover">
+            <text></text>
+          </view>
+          <view class="title">
+            <text>{{item.title}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <view id="playingpage" class=" {{playing?'playing':''}}">
+        <image id="playing-bg" class="blurbg" src="{{coverImgUrl}}" />
+        <view id="playing-zz" hidden="{{showlrc}}">
+        </view>
+        <view id="playing-main" hidden="{{showlrc}}">
+          <image src="{{coverImgUrl}}" bindtap="loadlrc" id="pmaincover" />
+        </view>
+        <view class="nowPlayingTitle">
+          <text>{{nowPlayingTitle}}</text>
+        </view>
+        <view class="nowPlayingArtist">
+          <text>{{nowPlayingArtist}}</text>
+        </view>
 
-<view class="bottom_controler">
-    <view class="bottom_ava" bindtap="clickBottomInfo">
-        <image
-            class="bottom_avaimg"
-            src="{{musicData[cIndex].coverImgUrl}}">
-        </image>
-    </view>
-    <view class="bottom_music_info" bindtap="clickBottomInfo">
-        <text class="name">{{playlists[cIndex].title}}</text>
-        <text class="author">{{musicData[cIndex].author}}</text>
-    </view>
+      <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
 
-    <view class="music_control">
-        <image class="control"
-            src="{{isPlayingMusic==0?'../../../imgs/play.png':'../../../imgs/pause.png'}}"
-            bindtap="clickControl">
-        </image>
-        <image class="control" src="../../../imgs/next.png" bindtap="clickNext"></image>
-    </view>
-</view>
-
-<loading hidden="{{loadingHide}}" bindchange="loadingHideChange">
-    加载列表中...
-</loading>
+      <view id="playing-actwrap">
+        <template is="playingpercent" data="{{playtime:playtime,percent:percent,duration:duration,downloadPercent:downloadPercent}}" />
+        <view id="playingaction">
+          <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=1}}">
+            <image src="../../../imgs/a_p.png" />
+          </view>
+          <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=2}}">
+            <image src="../../../imgs/a_y.png" />
+          </view>
+          <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=3}}">
+            <image src="../../../imgs/aa9.png" />
+          </view>
+          <view class="pa-maction" data-other="-1" bindtap="playother">
+            <image src="../../../imgs/ajh.png" />
+          </view>
+          <view class="pa-baction" hidden="{{!playing}}" bindtap="playingtoggle" data-p="{{playing}}">
+            <image id='pa-playing' src="../../../imgs/ajd.png" />
+          </view>
+          <view class="pa-baction" hidden="{{playing}}" bindtap="playingtoggle" data-p="{{playing}}">
+            <image id='pa-pause' src="../../../imgs/ajf.png" />
+          </view>
+          <view class="pa-maction" data-other="1" bindtap="playother">
+            <image src="../../../imgs/ajb.png" />
+          </view>
+          </view>
+        </view>
+      </view>
+    </swiper-item>
+</swiper>
