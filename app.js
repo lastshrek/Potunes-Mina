@@ -10,24 +10,7 @@ App({
 
     wx.onBackgroundAudioStop(function () {
       console.log("音乐停止")
-      if (that.globalData.globalStop) {
-        return;
-      }
-      if (that.globalData.playtype == 1) {
-        that.nextplay(1);
-      } else {
-        that.nextfm();
-      }
-    });
-
-    wx.onBackgroundAudioPause(function () {
-      console.log("音乐暂停");
-      // this.globalData.globalStop = this.globalData.hide ? true : false;
-      // wx.getBackgroundAudioPlayerState({
-      //   complete: function (res) {
-      //     this.globalData.currentPosition = res.currentPosition ? res.currentPosition : 0
-      //   }
-      // })
+      this.nextplay(1)
     })
   },
   getUserInfo:function(cb){
@@ -58,22 +41,25 @@ App({
     })
   },
   seekmusic: function (type, cb, seek) {
+    wx.stopBackgroundAudio();
+
     var that = this;
-    var m = this.globalData.curplay;
+
     this.globalData.playtype = type;
     this.playing(type)
-    // if (cb) {
-    //   console.log("cb")
-    //   this.playing(type,cb,seek);
-    // } else {
-    //   console.log("geturl")
-    //   this.geturl(function () { that.playing(type,cb,seek); })
-    // }
   },
   playing: function (type, cb, seek) {
-    console.log('jinlai')
     var that = this
-    var m = that.globalData.curplay
+    var m = {}
+    // 获取上次播放数据
+    let index = wx.getStorageSync('curIndex')
+    let tracks = wx.getStorageSync('tracks')
+    if (tracks) {
+      let track = tracks[index]
+      m = track
+    }
+    // 使用通知
+    console.log('m', m)
     wx.playBackgroundAudio({
       dataUrl: m.url,
       title: m.name,
@@ -115,36 +101,12 @@ App({
     this.globalData.globalStop = true;
     wx.stopBackgroundAudio();
   },
-  geturl: function (suc, err, cb) {
-    var that = this;
-    var m=that.globalData.curplay
-    console.log("m", m)
-    // wx.request({
-    //   url: bsurl + 'music/url',
-    //   data: {
-    //     id:m.id,
-    //     br:m.duration?((m.hMusic&&m.hMusic.bitrate)||(m.mMusic&&m.mMusic.bitrate)||(m.lMusicm&&m.lMusic.bitrate)||(m.bMusic&&m.bMusic.bitrate)):(m.privilege?m.privilege.maxbr:(m.h.br||m.m.br||m.l.br||m.b.br)),
-    //     cookie: wx.getStorageSync('cookie') || ''
-    //   },
-    //   success: function (a) {
-    //     a = a.data.data[0];
-    //     if (!a.url) {
-    //       err && err()
-    //     } else {
-    //       that.globalData.curplay.url = a.url;
-    //       console.log(that.globalData.curplay)
-    //       suc && suc()
-    //     }
-    //   }
-    // })
-  },
   onShow: function () {
     console.log(bsurl);
     this.globalData.hide = false
   },
   onHide: function () {
     this.globalData.hide = true
-    wx.setStorageSync('globalData', this.globalData);
   },
   globalData: {
     hasLogin: false,

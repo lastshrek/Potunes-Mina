@@ -52,7 +52,7 @@
           <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=3}}">
             <image src="../../../imgs/aa9.png" />
           </view>
-          <view class="pa-maction" data-other="-1" bindtap="playother">
+          <view class="pa-maction" data-other="-1" bindtap="playprev">
             <image src="../../../imgs/ajh.png" />
           </view>
           <view class="pa-baction" hidden="{{!playing}}" bindtap="playingtoggle" data-p="{{playing}}">
@@ -61,8 +61,11 @@
           <view class="pa-baction" hidden="{{playing}}" bindtap="playingtoggle" data-p="{{playing}}">
             <image id='pa-pause' src="../../../imgs/ajf.png" />
           </view>
-          <view class="pa-maction" data-other="1" bindtap="playother">
+          <view class="pa-maction" data-other="1" bindtap="playnext">
             <image src="../../../imgs/ajb.png" />
+          </view>
+          <view class="pa-saction" bindtap="musicinfo">
+            <image src="../../../imgs/aab.png" />
           </view>
           </view>
         </view>
