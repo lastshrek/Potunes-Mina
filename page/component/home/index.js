@@ -25,7 +25,7 @@ let defaultdata = {
   downloadPercent: 0,
   curIndex: 0,
   initial: true,
-  shuffle: 2,
+  shuffle: 1,
   music: {}
 }
 //获取应用实例
@@ -46,9 +46,7 @@ Page({
         })
       }
     })
-    /**
-     * 获取系统信息
-     */
+    //获取系统信息
     wx.getSystemInfo( {
       success: function( res ) {
         that.setData( {
@@ -131,12 +129,11 @@ Page({
       return
     }
     if (this.data.playing) {
-      console.log("暂停播放")
-      that.setData({ playing: false })
+      that.setData({
+        playing: false
+      })
       app.stopmusic(1)
-      // wx.stopBackgroundAudio()
     } else {
-      console.log("继续播放")
       app.seekmusic(1, function () {
         that.setData({
           playing: true
@@ -150,15 +147,21 @@ Page({
         initial: false
       })
     }
-    let lastIndex = parseInt(this.data.curIndex)
+    let shuffle = this.data.shuffle
     let count = this.data.tracks.length
-    if (lastIndex == count - 1) {
-      lastIndex = 0
-    } else {
-      lastIndex = lastIndex + 1
+    let lastIndex = parseInt(this.data.curIndex)
+
+    if (shuffle == 3) {
+      //随机播放
+      lastIndex = Math.floor(Math.random() * count)
+    } else if (shuffle == 1) {
+      if (lastIndex == count - 1) {
+        lastIndex = 0
+      } else {
+        lastIndex = lastIndex + 1
+      }
     }
     this.changeData(this.data.tracks, lastIndex)
-
   },
   playprev: function (e) {
     if (this.data.initial) {
@@ -166,12 +169,18 @@ Page({
         initial: false
       })
     }
+    let shuffle = this.data.shuffle
     let lastIndex = parseInt(this.data.curIndex)
     let count = this.data.tracks.length
-    if (lastIndex == 0) {
-      lastIndex = count - 1
-    } else {
-      lastIndex = lastIndex - 1
+    if (shuffle == 3) {
+      //随机播放
+      lastIndex = Math.floor(Math.random() * count)
+    } else if (shuffle == 1) {
+      if (lastIndex == 0) {
+        lastIndex = count - 1
+      } else {
+        lastIndex = lastIndex - 1
+      }
     }
     this.changeData(this.data.tracks, lastIndex)
   },
