@@ -42,6 +42,10 @@ App({
     this.playing(type)
   },
   playing: function (type, cb, seek) {
+    wx.showToast({
+      title: '加载歌曲中',
+      icon: 'loading',
+    })
     var that = this
     var m = {}
     // 获取上次播放数据
@@ -58,7 +62,7 @@ App({
       success: function (res) {
         if (seek != undefined) {
           wx.seekBackgroundAudio({ position: seek })
-        };
+        }
         that.globalData.globalStop = false;
         that.globalData.playtype = type
         cb && cb();

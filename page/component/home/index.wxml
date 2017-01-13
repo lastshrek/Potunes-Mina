@@ -10,7 +10,7 @@
 <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight-31}}px" bindchange="bindChange">
     <swiper-item>
       <scroll-view scroll-y="true" scroll-x="false" style="height:{{winHeight}}px;">
-        <view wx:for="{{playlists}}" class="playlist z-depth-2" bindtap="tracks" id="{{index}}">
+        <view wx:for="{{playlists}}" wx:key="playlist" class="playlist z-depth-2" bindtap="tracks" id="{{index}}">
           <view>
             <image src="{{item.cover}}" class="cover" mode="aspectFill"/>
           </view>
@@ -66,10 +66,20 @@
                 <view class="pa-saction" bindtap="musicinfo">
                   <image src="../../../imgs/aab.png" />
                 </view>
-                </view>
+              </view>
             </view>
           </view>
         </view>
+        <scroll-view scroll-y="true" style="height:18rem;" class="music_list" animation="{{animationData}}">
+          <block wx:for="{{tracks}}" wx:key="tracks">
+            <view class="item_music" bindtap="itemClick" id="{{index}}">
+              <view class="list_music_info">
+                  <text class="list_title">{{item.name}} - {{item.artist}}</text>
+              </view>
+              <image wx:if="{{index==cIndex}}" class="list_control" src="../../imgs/play.png" />
+            </view>
+          </block>
+        </scroll-view>
         <!-- <view id="playing-zz" hidden="{{showlrc}}">
         </view>
 

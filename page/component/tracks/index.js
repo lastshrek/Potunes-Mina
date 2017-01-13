@@ -5,12 +5,17 @@ Page({
     },
     onLoad: function (options) {
         var that = this
+        wx.showToast({
+          title: '加载中',
+          icon: 'loading'
+        })
         wx.request({
             url: bsurl + options.id,
             success: function (res) {
-                that.setData({
-                    tracks: res.data
-                })
+              wx.hideToast()
+              that.setData({
+                  tracks: res.data
+              })
             }
         })
         wx.setNavigationBarTitle({

@@ -26,7 +26,9 @@ let defaultdata = {
   curIndex: 0,
   initial: true,
   shuffle: 1,
-  music: {}
+  music: {},
+  animationData: {},
+  pop: false
 }
 //获取应用实例
 let app = getApp()
@@ -34,12 +36,10 @@ Page({
   data: defaultdata,
   onLoad: function(options) {
     var that = this;
-    console.log(this.data.coverImgUrl)
     wx.request({
       url: bsurl,
       success: function (res) {
         that.setData({
-
           listHeight: res.data.length * 230,
           playlists: res.data,
           loadingHide:true
@@ -73,7 +73,6 @@ Page({
     wx.onBackgroundAudioStop(function(){
       that.playnext();
     })
-
   },
   bindChange: function(e) {
     var that = this;
@@ -126,6 +125,11 @@ Page({
         initial: false
       })
       app.seekmusic(1)
+      wx.showToast({
+        title: '开始播放',
+        icon: 'success',
+        duration: 2000
+      })
       return
     }
     if (this.data.playing) {
@@ -133,8 +137,18 @@ Page({
         playing: false
       })
       app.stopmusic(1)
+      wx.showToast({
+        title: '暂停播放',
+        icon: 'success',
+        duration: 2000
+      })
     } else {
       app.seekmusic(1, function () {
+        wx.showToast({
+          title: '继续播放',
+          icon: 'success',
+          duration: 2000
+        })
         that.setData({
           playing: true
         })
@@ -202,6 +216,33 @@ Page({
         shuffle: 1
       })
     }
+  },
+  musicinfo: function() {
+    let pop = this.data.pop
+    var animation = wx.createAnimation({
+      duration: 100,
+    })
+    this.animation = animation
+    this.setData({
+      animationData:animation.export()
+    })
+    if (!pop) {
+      // 创建动画
+      this.animation.translate(0, -this.data.winHeight + 81).step()
+
+    } else {
+      this.animation.translate(0, this.data.winHeight - 81).step()
+    }
+    this.setData({
+      animationData: this.animation.export(),
+      pop: !pop
+    })
+  },
+  // 点击播放列表
+  itemClick: function(event) {
+    var p = event.currentTarget.id
+    this.changeData(this.data.tracks, p)
+    this.musicinfo()
   },
   onShow: function () {
     var that = this

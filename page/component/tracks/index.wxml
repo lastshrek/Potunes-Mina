@@ -1,6 +1,6 @@
 <!--page/component/home/index.wxml-->
 <view class="music_list">
-    <block wx:for="{{tracks}}">
+    <block wx:for="{{tracks}}" wx:key="tracklist">
         <view class="item_music" bindtap="itemClick" id="{{index}}">
             <view class="list_ava">
                 <image class="list_avaimg" src="{{item.cover}}" />

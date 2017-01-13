@@ -94,6 +94,9 @@ function playAlrc(that, app) {
     });
     return;
   }
+
+
+
   if (that.data.music.id != app.globalData.curplay.id) {
     that.setData({
       music: app.globalData.curplay,
@@ -130,6 +133,9 @@ function playAlrc(that, app) {
         downloadPercent:downloadPercent,
         duration: formatduration((res.duration - playtime) * 1000)
       })
+      if (playtime != 0) {
+        wx.hideToast()
+      }
     }
   })
 };

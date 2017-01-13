@@ -114,7 +114,8 @@ transition: all linear .5s }
 
 
 
-#playing-main{width: 388rpx;
+#playing-main{
+  width: 388rpx;
  height:388rpx; animation-delay: .5s;animation: circle 20s linear infinite; animation-play-state: paused;}
 #playingmainbg{width:596rpx;height: 596rpx;position: relative;z-index: 1}
 #pmaincover{width: 100%;height: 100%;left:104rpx ;top:104rpx;
@@ -135,3 +136,56 @@ border-radius: 50%;overflow: hidden;}
 
 .playing #playing-main{animation-play-state: running !important;}
 .playing #playing-zz image{transform: rotate(-0deg) }
+
+/*弹出播放列表*/
+.music_list{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 4;
+  /*display: none;*/
+}
+
+.item_music{
+  background-color: white;
+  height: 3.2rem;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.list_ava{
+    float: left;
+    width: 2.8rem;
+    height: 2.8rem;
+}
+.list_avaimg{
+    margin-left: 0.1rem;
+    margin-top: 0.1rem;
+    width: 2.8rem;
+    height: 2.8rem;
+}
+.list_music_info{
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  margin-left: 1rem;
+}
+.list_title{
+  display: block;
+  font-size: 14px;
+  color: #000;
+}
+.list_author{
+  margin-top: 6px;
+  display: block;
+  font-size: 12px;
+  color: #666;
+}
+.list_control{
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0.4rem;
+}
