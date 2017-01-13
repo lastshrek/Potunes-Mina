@@ -31,14 +31,14 @@
             <view hidden="{{showlrc}}" style="height:388rpx; width:388rpx;" id="playing-main">
               <image src="{{coverImgUrl}}" bindtap="loadlrc" id="pmaincover" />
             </view>
-            <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
-            <view class="nowPlayingTitle">
+            <view class="nowPlayingTitle" hidden="{{showlrc}}">
               <text>{{nowPlayingTitle}}</text>
             </view>
-            <view class="nowPlayingArtist">
+            <view class="nowPlayingArtist" hidden="{{showlrc}}" >
               <text>{{nowPlayingArtist}}</text>
             </view>
           </view>
+          <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
           <view class="actions">
             <view id="playing-actwrap">
               <template is="playingpercent" data="{{playtime:playtime,percent:percent,duration:duration,downloadPercent:downloadPercent}}" />
@@ -81,8 +81,7 @@
             </view>
           </block>
         </scroll-view>
-        <!-- <view id="playing-zz" hidden="{{showlrc}}">
-        </view>
+
 
 
         <view>
@@ -90,7 +89,7 @@
 
 
 
-        </view> -->
+        </view>
 
 
 

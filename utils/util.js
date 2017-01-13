@@ -46,9 +46,8 @@ function formatduration(duration) {
 }
 
 function parse_lrc(lrc_content) {
-  console.log(lrc_content)
   let now_lrc = [];
-  let lrc_row = lrc_content.split("\n");
+  let lrc_row = lrc_content.split("[");
   let scroll = true;
   for (let i in lrc_row) {
     if ((lrc_row[i].indexOf(']') == -1) && lrc_row[i]) {
@@ -56,17 +55,16 @@ function parse_lrc(lrc_content) {
     } else if (lrc_row[i] != "") {
       var tmp = lrc_row[i].split("]");
       for (let j in tmp) {
-        scroll = false
+        scroll = true
         let tmp2 = tmp[j].substr(1, 8);
         tmp2 = tmp2.split(":");
         let lrc_sec = parseInt(tmp2[0] * 60 + tmp2[1] * 1);
         if (lrc_sec && (lrc_sec > 0)) {
           let count = tmp.length;
-          let lrc = trimStr(tmp[count - 1]);
+          let lrc = trimStr(tmp[count - 1]).replace('\\n', '');
           if (lrc != "") {
             now_lrc.push({ lrc_sec: lrc_sec, lrc: lrc });
           }
-
         }
       }
     }
@@ -100,7 +98,6 @@ function playAlrc(that, app) {
     that.setData({
       music: app.globalData.curplay,
       lrc: [],
-      showlrc: true,
       lrcindex: 0,
       duration: formatduration(app.globalData.curplay.duration||app.globalData.curplay.dt)
     });
@@ -113,9 +110,12 @@ function playAlrc(that, app) {
         playtime = res.currentPosition;
         downloadPercent=res.downloadPercent
         if (that.data.showlrc && !that.data.lrc.scroll) {
-          for (let i in that.data.lrc.lrc) {
-            var se = that.data.lrc.lrc[i];
+          // console.log('匹配歌词')
+          for (let i in that.data.lrc) {
+            var se = that.data.lrc[i];
+            // console.log("currentPosition", res.currentPosition)
             if (se.lrc_sec <= res.currentPosition) {
+              // console.log('匹配成功')
               lrcindex = i
             }
           }
@@ -140,29 +140,22 @@ function playAlrc(that, app) {
 };
 
 function loadlrc(that) {
-  if (that.data.showlrc) {
-    that.setData({
-      showlrc: false
-    })
-    return;
-  } else {
-    that.setData({
-      showlrc: true
-    })
+  if (that.data.lrc.length > 0) {
+    return
   }
+
   if (!that.data.lrc.code) {
     var lrcid = that.data.music.id
-    console.log("lrcid", lrcid)
     wx.request({
-      url: 'https://poche.fm/api/app/lyrics/' + lrcid,
-      dataType: 'json',
+      url: 'https://poche.fm/api/app/wechatlrc/' + lrcid,
       success: function (res) {
-        console.log("res", res)
-        var lrc = parse_lrc(res.data.lrc && res.data.lrc.lyric ? res.data.lrc.lyric : '')
-        res.data.lrc = lrc.now_lrc;
-        res.data.scroll = lrc.scroll ? 1 : 0
+        console.log("res.data", res)
+
+        var lrc = res.data[0]
+        var lrc_parsed = parse_lrc(lrc.lrc)
         that.setData({
-          lrc: res.data
+          lrc: lrc_parsed.now_lrc,
+          scroll: lrc_parsed.scroll
         });
       }
     })

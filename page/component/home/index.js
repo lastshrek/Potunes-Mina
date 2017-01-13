@@ -28,7 +28,8 @@ let defaultdata = {
   shuffle: 1,
   music: {},
   animationData: {},
-  pop: false
+  pop: false,
+  scroll: false
 }
 //获取应用实例
 let app = getApp()
@@ -247,7 +248,19 @@ Page({
   },
   // 加载歌词
   loadlrc: function(event) {
-    common.loadlrc(this);
+        console.log(this.data.showlrc)
+    if (this.data.showlrc == false) {
+      this.setData({
+        showlrc: true
+      })
+      common.loadlrc(this);
+    } else {
+      this.setData({
+        showlrc: false
+      })
+    }
+
+
   },
   onShow: function () {
     var that = this
