@@ -25,50 +25,64 @@
     </swiper-item>
     <swiper-item>
       <view id="playingpage" class=" {{playing?'playing':''}}">
-        <image id="playing-bg" class="blurbg" src="{{coverImgUrl}}" />
-        <view id="playing-zz" hidden="{{showlrc}}">
+        <view class="blurbg" style="background-image: url({{coverImgUrl}})"></view>
+        <view class="playing-wrap">
+          <view class="contents">
+            <view hidden="{{showlrc}}" style="height:388rpx; width:388rpx;" id="playing-main">
+              <image src="{{coverImgUrl}}" bindtap="loadlrc" id="pmaincover" />
+            </view>
+            <view class="nowPlayingTitle">
+              <text>{{nowPlayingTitle}}</text>
+            </view>
+            <view class="nowPlayingArtist">
+              <text>{{nowPlayingArtist}}</text>
+            </view>
+          </view>
+          <view class="actions">
+            <view id="playing-actwrap">
+              <template is="playingpercent" data="{{playtime:playtime,percent:percent,duration:duration,downloadPercent:downloadPercent}}" />
+              <view id="playingaction">
+                <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=1}}">
+                  <image src="../../../imgs/a_p.png" />
+                </view>
+                <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=2}}">
+                  <image src="../../../imgs/a_y.png" />
+                </view>
+                <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=3}}">
+                  <image src="../../../imgs/aa9.png" />
+                </view>
+                <view class="pa-maction" data-other="-1" bindtap="playprev">
+                  <image src="../../../imgs/ajh.png" />
+                </view>
+                <view class="pa-baction" hidden="{{!playing}}" bindtap="playingtoggle" data-p="{{playing}}">
+                  <image id='pa-playing' src="../../../imgs/ajd.png" />
+                </view>
+                <view class="pa-baction" hidden="{{playing}}" bindtap="playingtoggle" data-p="{{playing}}">
+                  <image id='pa-pause' src="../../../imgs/ajf.png" />
+                </view>
+                <view class="pa-maction" data-other="1" bindtap="playnext">
+                  <image src="../../../imgs/ajb.png" />
+                </view>
+                <view class="pa-saction" bindtap="musicinfo">
+                  <image src="../../../imgs/aab.png" />
+                </view>
+                </view>
+            </view>
+          </view>
         </view>
-        <view id="playing-main" hidden="{{showlrc}}">
-          <image src="{{coverImgUrl}}" bindtap="loadlrc" id="pmaincover" />
-        </view>
-        <view class="nowPlayingTitle">
-          <text>{{nowPlayingTitle}}</text>
-        </view>
-        <view class="nowPlayingArtist">
-          <text>{{nowPlayingArtist}}</text>
+        <!-- <view id="playing-zz" hidden="{{showlrc}}">
         </view>
 
-      <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
 
-      <view id="playing-actwrap">
-        <template is="playingpercent" data="{{playtime:playtime,percent:percent,duration:duration,downloadPercent:downloadPercent}}" />
-        <view id="playingaction">
-          <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=1}}">
-            <image src="../../../imgs/a_p.png" />
-          </view>
-          <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=2}}">
-            <image src="../../../imgs/a_y.png" />
-          </view>
-          <view class="pa-saction" bindtap="playshuffle" hidden="{{shuffle!=3}}">
-            <image src="../../../imgs/aa9.png" />
-          </view>
-          <view class="pa-maction" data-other="-1" bindtap="playprev">
-            <image src="../../../imgs/ajh.png" />
-          </view>
-          <view class="pa-baction" hidden="{{!playing}}" bindtap="playingtoggle" data-p="{{playing}}">
-            <image id='pa-playing' src="../../../imgs/ajd.png" />
-          </view>
-          <view class="pa-baction" hidden="{{playing}}" bindtap="playingtoggle" data-p="{{playing}}">
-            <image id='pa-pause' src="../../../imgs/ajf.png" />
-          </view>
-          <view class="pa-maction" data-other="1" bindtap="playnext">
-            <image src="../../../imgs/ajb.png" />
-          </view>
-          <view class="pa-saction" bindtap="musicinfo">
-            <image src="../../../imgs/aab.png" />
-          </view>
-          </view>
-        </view>
+        <view>
+
+          <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
+
+
+        </view> -->
+
+
+
       </view>
     </swiper-item>
 </swiper>

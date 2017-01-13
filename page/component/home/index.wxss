@@ -54,6 +54,47 @@ page {
     color: white;
 }
 /*播放器页*/
+#playingpage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#playingpage .blurbg{
+  position: absolute;
+  left: 0;
+  bottom:0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  filter: blur(30px) brightness(.8);
+  background-repeat: no-repeat;
+}
+#playingpage .playing-wrap {
+  position: absolute;
+  left: 0;
+  bottom:0;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+#playingpage .playing-wrap .contents {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#playingpage .playing-wrap .actions {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
 .nowPlayingTitle {
   margin-top: 10px;
@@ -67,17 +108,16 @@ page {
   position:relative;
   z-index:2;
 }
-#playingpage { position: relative; width: 100%; height:100%;background-color: transparent;}
 #playing-zz{text-align: center;position: absolute;z-index:20;width: 100%;top:0;left: 0;}
 #playing-zz image{width: 222rpx;height:366rpx;margin:-60rpx 0 0 60px; transform-origin:60rpx 60rpx; transform: rotate(-20deg);
 transition: all linear .5s }
 
-#coverbg{position: absolute;left: 0;bottom:0;width:100%;height:100%;z-index:1;display:block}
 
-#playing-main{margin: 160rpx auto 0;position: relative;z-index:10;width: 596rpx;
- height:596rpx; animation-delay: .5s;animation: circle 20s linear infinite; animation-play-state: paused;}
+
+#playing-main{width: 388rpx;
+ height:388rpx; animation-delay: .5s;animation: circle 20s linear infinite; animation-play-state: paused;}
 #playingmainbg{width:596rpx;height: 596rpx;position: relative;z-index: 1}
-#pmaincover{position: absolute;width: 388rpx;height: 388rpx;left:104rpx ;top:104rpx;z-index: 3;
+#pmaincover{width: 100%;height: 100%;left:104rpx ;top:104rpx;
 border-radius: 50%;overflow: hidden;}
 
 #playing-actwrap{position: absolute;left: 0;bottom:0;width: 100%;box-sizing:border-box;overflow: hidden;z-index: 10}

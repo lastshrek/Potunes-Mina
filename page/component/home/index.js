@@ -11,7 +11,7 @@ let defaultdata = {
   // 播放列表
   playlists: [],
   tracks: [],
-  coverImgUrl: "../../../imgs/icon.jpg",
+  coverImgUrl: "http://lastshrek.b0.upaiyun.com/icon.jpg",
   nowPlayingTitle:"请选择歌曲",
   nowPlayingArtist: "",
   playing:false,
@@ -34,7 +34,7 @@ Page({
   data: defaultdata,
   onLoad: function(options) {
     var that = this;
-
+    console.log(this.data.coverImgUrl)
     wx.request({
       url: bsurl,
       success: function (res) {
