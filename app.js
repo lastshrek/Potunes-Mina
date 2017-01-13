@@ -7,8 +7,6 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
-    wx.onBackgroundAudioStop(this.nextplay(1))
   },
   getUserInfo:function(cb){
     var that = this
@@ -54,7 +52,6 @@ App({
       m = track
     }
     // 使用通知
-    console.log('m', m)
     wx.playBackgroundAudio({
       dataUrl: m.url,
       title: m.name,
@@ -94,7 +91,7 @@ App({
   preplay: function () {
     //歌曲切换 停止当前音乐
     this.globalData.globalStop = true;
-    wx.stopBackgroundAudio();
+    // wx.stopBackgroundAudio();
   },
   onShow: function () {
     console.log(bsurl);

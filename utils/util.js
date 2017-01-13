@@ -98,7 +98,7 @@ function playAlrc(that, app) {
     that.setData({
       music: app.globalData.curplay,
       lrc: [],
-      showlrc: false,
+      showlrc: true,
       lrcindex: 0,
       duration: formatduration(app.globalData.curplay.duration||app.globalData.curplay.dt)
     });
@@ -118,9 +118,9 @@ function playAlrc(that, app) {
             }
           }
         };
-
-      } if (res.status == 1) {
-        playing = true;
+      }
+      if (res.status == 1) {
+        playing = true
       }
       that.setData({
         playtime: formatduration(playtime * 1000),
@@ -128,10 +128,10 @@ function playAlrc(that, app) {
         playing: playing,
         lrcindex: lrcindex,
         downloadPercent:downloadPercent,
-        duration: formatduration(res.duration * 1000)
+        duration: formatduration((res.duration - playtime) * 1000)
       })
     }
-  });
+  })
 };
 
 function loadlrc(that) {

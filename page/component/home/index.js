@@ -14,7 +14,6 @@ let defaultdata = {
   coverImgUrl: "../../../imgs/icon.jpg",
   nowPlayingTitle:"请选择歌曲",
   nowPlayingArtist: "",
-  music: {},
   playing:false,
   playtime: '00:00',
   duration: '00:00',
@@ -26,11 +25,8 @@ let defaultdata = {
   downloadPercent: 0,
   curIndex: 0,
   initial: true,
-  shuffle: 1,
-  share: {
-    title: "一起来听",
-    des: ""
-  }
+  shuffle: 2,
+  music: {}
 }
 //获取应用实例
 let app = getApp()
@@ -75,6 +71,11 @@ Page({
       })
     }
 
+    //监听停止,自动下一首
+    wx.onBackgroundAudioStop(function(){
+      that.playnext();
+    })
+
   },
   bindChange: function(e) {
     var that = this;
@@ -102,7 +103,6 @@ Page({
   },
   // 接收点击数据
   changeData: function(tracks, index) {
-    console.log(tracks,index)
     var curMusic = tracks[index]
     this.setData({
       curIndex: index,
@@ -111,14 +111,15 @@ Page({
       nowPlayingArtist: curMusic.artist,
       nowPlayingTitle: curMusic.name,
       playing: true,
+      music: curMusic
     })
+    app.globalData.curplay.id = curMusic.id
     //存储当前播放
     wx.setStorageSync("curIndex", index)
     wx.setStorageSync("tracks", tracks)
     app.seekmusic(1)
   },
   //播放方法
-
   playingtoggle:function(){
     var that = this
     if (this.data.initial) {
@@ -174,9 +175,28 @@ Page({
     }
     this.changeData(this.data.tracks, lastIndex)
   },
+  playshuffle: function() {
+    if (this.data.shuffle == 1) {
+      this.setData({
+        shuffle: 2
+      })
+      return
+    }
+    if (this.data.shuffle == 2) {
+      this.setData({
+        shuffle: 3
+      })
+      return
+    }
+    if (this.data.shuffle == 3) {
+      this.setData({
+        shuffle: 1
+      })
+    }
+  },
   onShow: function () {
-    var that = this;
-    app.globalData.playtype = 1;
+    var that = this
+    app.globalData.playtype = this.data.shuffle
     common.playAlrc(that, app);
     seek = setInterval(function () {
       common.playAlrc(that, app);
