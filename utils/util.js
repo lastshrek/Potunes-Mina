@@ -46,6 +46,7 @@ function formatduration(duration) {
 }
 
 function parse_lrc(lrc_content) {
+  console.log(lrc_content)
   let now_lrc = [];
   let lrc_row = lrc_content.split("\n");
   let scroll = true;
@@ -94,8 +95,6 @@ function playAlrc(that, app) {
     });
     return;
   }
-
-
 
   if (that.data.music.id != app.globalData.curplay.id) {
     that.setData({
@@ -152,12 +151,14 @@ function loadlrc(that) {
     })
   }
   if (!that.data.lrc.code) {
-    var lrcid = that.data.music.id;
-    var that = that;
+    var lrcid = that.data.music.id
+    console.log("lrcid", lrcid)
     wx.request({
-      url:bsurl+'lyric?id=' + lrcid,
+      url: 'https://poche.fm/api/app/lyrics/' + lrcid,
+      dataType: 'json',
       success: function (res) {
-        var lrc = parse_lrc(res.data.lrc && res.data.lrc.lyric ? res.data.lrc.lyric : '');
+        console.log("res", res)
+        var lrc = parse_lrc(res.data.lrc && res.data.lrc.lyric ? res.data.lrc.lyric : '')
         res.data.lrc = lrc.now_lrc;
         res.data.scroll = lrc.scroll ? 1 : 0
         that.setData({

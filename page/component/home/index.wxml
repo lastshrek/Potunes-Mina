@@ -31,6 +31,7 @@
             <view hidden="{{showlrc}}" style="height:388rpx; width:388rpx;" id="playing-main">
               <image src="{{coverImgUrl}}" bindtap="loadlrc" id="pmaincover" />
             </view>
+            <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
             <view class="nowPlayingTitle">
               <text>{{nowPlayingTitle}}</text>
             </view>
@@ -86,7 +87,7 @@
 
         <view>
 
-          <template is="lrc" data="{{lrc:lrc,showlrc:showlrc,lrcindex:lrcindex}}" />
+
 
 
         </view> -->

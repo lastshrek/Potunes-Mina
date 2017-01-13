@@ -66,6 +66,7 @@ Page({
         coverImgUrl:track.cover,
         nowPlayingArtist: track.artist,
         nowPlayingTitle: track.name,
+        music: track
       })
     }
 
@@ -243,6 +244,10 @@ Page({
     var p = event.currentTarget.id
     this.changeData(this.data.tracks, p)
     this.musicinfo()
+  },
+  // 加载歌词
+  loadlrc: function(event) {
+    common.loadlrc(this);
   },
   onShow: function () {
     var that = this
