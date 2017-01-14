@@ -7,7 +7,8 @@ Page({
         var that = this
         wx.showToast({
           title: '加载中',
-          icon: 'loading'
+          icon: 'loading',
+          duration: 1500
         })
         wx.request({
             url: bsurl + options.id,

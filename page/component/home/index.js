@@ -110,23 +110,28 @@ Page({
       nowPlayingArtist: curMusic.artist,
       nowPlayingTitle: curMusic.name,
       playing: true,
-      music: curMusic
+      music: curMusic,
+      lrc: [],
+      lrcindex: 0
     })
     app.globalData.curplay.id = curMusic.id
     //存储当前播放
     wx.setStorageSync("curIndex", index)
     wx.setStorageSync("tracks", tracks)
     app.seekmusic(1)
+    if (this.data.showlrc) {
+      common.loadlrc(this);
+    }
   },
   //播放方法
-  playingtoggle:function(){
+  playingtoggle:function() {
     var that = this
     if (this.data.initial) {
       // this.play(this.data.tracks, this.data.curIndex)
       this.setData({
         initial: false
       })
-      app.seekmusic(1)
+      this.changeData(this.data.tracks, this.data.curIndex)
       wx.showToast({
         title: '开始播放',
         icon: 'success',
@@ -230,7 +235,7 @@ Page({
     })
     if (!pop) {
       // 创建动画
-      this.animation.translate(0, -this.data.winHeight + 81).step()
+      this.animation.translate(0, -this.data.winHeight + 31).step()
 
     } else {
       this.animation.translate(0, this.data.winHeight - 81).step()
@@ -248,7 +253,6 @@ Page({
   },
   // 加载歌词
   loadlrc: function(event) {
-        console.log(this.data.showlrc)
     if (this.data.showlrc == false) {
       this.setData({
         showlrc: true
@@ -259,15 +263,19 @@ Page({
         showlrc: false
       })
     }
-
-
   },
   onShow: function () {
-    var that = this
-    app.globalData.playtype = this.data.shuffle
+    var that = this;
+    app.globalData.playtype = 1;
     common.playAlrc(that, app);
     seek = setInterval(function () {
       common.playAlrc(that, app);
     }, 1000)
+  },
+  onUnload: function () {
+    clearInterval(seek)
+  },
+  onHide: function () {
+    clearInterval(seek)
   },
 })

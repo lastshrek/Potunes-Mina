@@ -51,7 +51,7 @@ function parse_lrc(lrc_content) {
   let scroll = true;
   for (let i in lrc_row) {
     if ((lrc_row[i].indexOf(']') == -1) && lrc_row[i]) {
-      now_lrc.push({ lrc: lrc_row[i] });
+      now_lrc.push({ lrc: '暂无歌词' });
     } else if (lrc_row[i] != "") {
       var tmp = lrc_row[i].split("]");
       for (let j in tmp) {
@@ -149,8 +149,6 @@ function loadlrc(that) {
     wx.request({
       url: 'https://poche.fm/api/app/wechatlrc/' + lrcid,
       success: function (res) {
-        console.log("res.data", res)
-
         var lrc = res.data[0]
         var lrc_parsed = parse_lrc(lrc.lrc)
         that.setData({

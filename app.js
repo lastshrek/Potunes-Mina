@@ -45,6 +45,7 @@ App({
     wx.showToast({
       title: '加载歌曲中',
       icon: 'loading',
+      duration: 1500
     })
     var that = this
     var m = {}

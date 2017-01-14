@@ -25,7 +25,7 @@
         <text> </text>
       </view>
     </view>
-    <view hidden="{{lrc}}" class="cntloading">歌词加载中...
+    <view wx:if="{{lrc.length > 0}}" hidden="{{lrc}}" class="cntloading">歌词加载中...
       <view>
         <text class="cl1"></text>
         <text class="cl2"></text>
