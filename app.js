@@ -87,19 +87,17 @@ App({
     } else {
       index--;
     }
-    index = index > list.length - 1 ? 0 : (index < 0 ? list.length - 1 : index);
+    index = index > list.length - 1 ? 0 : (index < 0 ? list.length - 1 : index)
     this.globalData.curplay = list[index] || {};
     this.globalData.index_am = index;
-    console.log("歌单下一首",this.globalData.curplay,list)
     this.seekmusic(1)
   },
   preplay: function () {
     //歌曲切换 停止当前音乐
-    this.globalData.globalStop = true;
+    this.globalData.globalStop = true
     // wx.stopBackgroundAudio();
   },
   onShow: function () {
-    console.log(bsurl);
     this.globalData.hide = false
   },
   onHide: function () {

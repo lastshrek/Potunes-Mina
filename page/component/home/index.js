@@ -1,4 +1,4 @@
-let bsurl = 'https://poche.fm/api/app/playlists'
+let bsurl = 'https://poche.fm/api/app/playlists?id=1.0.0&v=mina'
 var common = require('../../../utils/util.js');
 
 let seek = 0
