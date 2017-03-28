@@ -1,5 +1,4 @@
-// let bsurl = 'https://poche.fm/api/app/playlists?id=1.0.0&v=mina'
-let bsurl = 'https://poche.fm/api/app/playlists'
+let bsurl = 'https://poche.fm/api/app/playlists?id=1.0.0&v=mina'
 
 var common = require('../../../utils/util.js');
 
@@ -31,7 +30,8 @@ let defaultdata = {
   music: {},
   animationData: {},
   pop: false,
-  scroll: false
+  scroll: false,
+  currentTab: 0
 }
 //获取应用实例
 let app = getApp()
@@ -39,6 +39,13 @@ Page({
   data: defaultdata,
   onLoad: function(options) {
     var that = this;
+    console.log(options)
+    console.log(getCurrentPages());
+    if (options.currentTab) {
+      that.setData({
+        currentTab: options.currentTab
+      })
+    }
     wx.request({
       url: bsurl,
       success: function (res) {
@@ -103,7 +110,7 @@ Page({
     })
   },
   // 接收点击数据
-  changeData: function(tracks, index) {
+  changeData: function(tracks, index, tab) {
     var curMusic = tracks[index]
     this.setData({
       curIndex: index,
@@ -114,7 +121,8 @@ Page({
       playing: true,
       music: curMusic,
       lrc: [],
-      lrcindex: 0
+      lrcindex: 0,
+      currentTab: tab
     })
     app.globalData.curplay.id = curMusic.id
     //存储当前播放
@@ -122,7 +130,7 @@ Page({
     wx.setStorageSync("tracks", tracks)
     app.seekmusic(1)
     if (this.data.showlrc) {
-      common.loadlrc(this);
+      common.loadlrc(this)
     }
   },
   //播放方法
@@ -266,8 +274,8 @@ Page({
       })
     }
   },
-  onShow: function () {
-    var that = this;
+  onShow: function (options) {
+    var that = this
     app.globalData.playtype = 1;
     common.playAlrc(that, app);
     seek = setInterval(function () {

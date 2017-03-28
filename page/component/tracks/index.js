@@ -31,8 +31,11 @@ Page({
         if(pages.length > 1) {
             //上一个页面实例对象
             var prePage = pages[pages.length - 2]
-            //关键在这里
-            prePage.changeData(this.data.tracks,p)
+            prePage.changeData(this.data.tracks, p, 1)
+            wx.navigateBack({
+                url: '../home/index?currentTab=1'
+            })
         }
+
     }
 })
