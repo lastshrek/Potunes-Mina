@@ -13,7 +13,7 @@ page {
 	  width: 33.33%;
 	  color: #777777;
 }
-.on{ color: #da7c0c;
+.on { color: #da7c0c;
 	border-bottom: 5rpx solid #da7c0c;}
 
 .swiper-box{ display: block; height: 100%; width: 100%; overflow: hidden; }
@@ -26,6 +26,14 @@ page {
     height: 230px;
     position: relative;
     text-align: center;
+}
+
+.show {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .cover {

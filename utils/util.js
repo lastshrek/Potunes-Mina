@@ -109,6 +109,7 @@ function playAlrc(that, app) {
         time = res.currentPosition / res.duration * 100;
         playtime = res.currentPosition;
         downloadPercent=res.downloadPercent
+        console.log(res.downloadPercent)
         if (that.data.showlrc && !that.data.lrc.scroll) {
           // console.log('匹配歌词')
           for (let i in that.data.lrc) {
