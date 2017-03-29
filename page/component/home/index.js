@@ -1,4 +1,4 @@
-let bsurl = 'https://poche.fm/api/app/playlists?id=1.0.0&v=mina'
+let bsurl = 'https://poche.fm/api/app/playlists?id=1.0.1&v=mina'
 
 var common = require('../../../utils/util.js');
 
@@ -38,9 +38,7 @@ let app = getApp()
 Page({
   data: defaultdata,
   onLoad: function(options) {
-    var that = this;
-    console.log(options)
-    console.log(getCurrentPages());
+    var that = this
     if (options.currentTab) {
       that.setData({
         currentTab: options.currentTab
@@ -49,9 +47,22 @@ Page({
     wx.request({
       url: bsurl,
       success: function (res) {
+        var playlists = []
+        if (res.data.length != 3) {
+          var playlist = {
+            id:0,
+            cover:'https://s.poche.fm/nowlistening/cover.png',
+            title:'破车最近在听的歌',
+          }
+          playlists.push(playlist)
+        }
+        res.data.forEach(function(playlist) {
+          playlists.push(playlist)
+        })
+        playlists.push(res.data)
         that.setData({
           listHeight: res.data.length * 230,
-          playlists: res.data,
+          playlists: playlists,
           loadingHide:true
         })
       }
@@ -86,8 +97,8 @@ Page({
     })
   },
   bindChange: function(e) {
-    var that = this;
-    that.setData( { currentTab: e.detail.current });
+    var that = this
+    that.setData( { currentTab: e.detail.current })
   },
   swichNav: function(e) {
     var that = this;

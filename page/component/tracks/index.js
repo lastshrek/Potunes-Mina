@@ -10,6 +10,7 @@ Page({
           icon: 'loading',
           duration: 1500
         })
+        console.log(bsurl + options.id)
         wx.request({
             url: bsurl + options.id,
             success: function (res) {
